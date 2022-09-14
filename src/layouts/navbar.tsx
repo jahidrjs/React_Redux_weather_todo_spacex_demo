@@ -1,6 +1,12 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import {
+  HomeOutlined,
+  TagsFilled,
+  WeiboCircleFilled,
+  RocketFilled,
+} from '@ant-design/icons';
 
 const { Header } = Layout;
 const items = [
@@ -22,19 +28,27 @@ const navbar: any = () => {
     <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['home']}>
         <Menu.Item key="home">
-          <Link to={'/'}>Home</Link>
+          <Link to={'/'}>
+            <HomeOutlined /> Home
+          </Link>
         </Menu.Item>
 
         <Menu.Item key="todo">
-          <Link to={'todo'}>ToDo List</Link>
+          <Link to={'todo'}>
+            <TagsFilled /> ToDo List
+          </Link>
         </Menu.Item>
 
         <Menu.Item key="weather">
-          <Link to={'weather'}>Weather</Link>
+          <Link to={'weather'}>
+            <WeiboCircleFilled /> Weather
+          </Link>
         </Menu.Item>
 
         <Menu.Item key="bonus">
-          <Link to={'spacex'}>Bonus : SpaceX</Link>
+          <Link to={'spacex'}>
+            <RocketFilled /> Bonus : SpaceX
+          </Link>
         </Menu.Item>
       </Menu>
       {/* <Menu
