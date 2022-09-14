@@ -1,5 +1,7 @@
 import React from 'react';
-import { Breadcrumb, Layout } from 'antd';
+import { Layout } from 'antd';
+import { Button, Result } from 'antd';
+import { Link } from 'react-router-dom';
 
 const { Content } = Layout;
 const error: any = () => {
@@ -9,14 +11,20 @@ const error: any = () => {
         className="site-layout"
         style={{ padding: '0 50px', marginTop: 64 }}
       >
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Error Page</Breadcrumb.Item>
-        </Breadcrumb>
         <div
           className="site-layout-background"
           style={{ padding: 24, minHeight: 380 }}
         >
-          Content
+          <Result
+            status="404"
+            title="404"
+            subTitle="Sorry, the page you visited does not exist."
+            extra={
+              <Link to={'/'}>
+                <Button type="primary">Back Home</Button>
+              </Link>
+            }
+          />
         </div>
       </Content>
     </>
