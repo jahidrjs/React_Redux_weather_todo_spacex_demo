@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Col, Row, Tooltip, Button } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
 
 const Todo = (tododata: any) => {
   return (

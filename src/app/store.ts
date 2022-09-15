@@ -2,12 +2,14 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
 import todosReducer from '../features/todo/TodoSlice';
 import weatherReducer from '../features/weather/WeatherSlice';
+import SpacexReducer from '../features/spacex/SpacexSlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     todosReducer: todosReducer,
-    weatherReducer:weatherReducer
+    weatherReducer:weatherReducer,
+    SpacexReducer: SpacexReducer
   },
 });
 

@@ -6,7 +6,6 @@ const { v4: uuidv4 } = require('uuid');
 import { Breadcrumb, Layout } from 'antd';
 import { Button, Form, Input, Select } from 'antd';
 import { Link } from 'react-router-dom';
-const { Option } = Select;
 
 const { Content } = Layout;
 

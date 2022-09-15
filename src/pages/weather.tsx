@@ -3,28 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showWeather, searchWeather } from '../features/weather/WeatherSlice';
 
 import {
-  Breadcrumb,
   Layout,
   Row,
   Col,
   Collapse,
   Input,
-  Avatar,
   Card,
-  Carousel,
   Statistic,
   notification,
 } from 'antd';
-import {
-  BoldOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-  ArrowDownOutlined,
-  ArrowUpOutlined,
-} from '@ant-design/icons';
+import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { parse } from 'node:path/win32';
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
@@ -39,11 +28,10 @@ const { Content } = Layout;
 const { Panel } = Collapse;
 const { Search } = Input;
 const { Meta } = Card;
-const text =
-  ' A dog is a type of domesticated animal.  Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.';
+
 const weather: any = () => {
   const onChange = (key: string | string[]) => {
-    console.log(key);
+    // console.log(key);
   };
   const [searchLoading, setSearchLoading] = useState(false);
   const onSearch = (value: string) => {

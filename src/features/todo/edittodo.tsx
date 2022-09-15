@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { updateTodo } from './TodoSlice';
-const { v4: uuidv4 } = require('uuid');
 import { Breadcrumb, Layout } from 'antd';
 import { Button, Form, Input, Select } from 'antd';
 import { Link } from 'react-router-dom';
-const { Option } = Select;
 
 const { Content } = Layout;
 
