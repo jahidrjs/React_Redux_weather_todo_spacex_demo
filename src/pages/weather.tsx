@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { showWeather, searchWeather } from '../features/weather/WeatherSlice';
+
 import {
   Breadcrumb,
   Layout,
@@ -11,15 +12,29 @@ import {
   Avatar,
   Card,
   Carousel,
+  Statistic,
+  notification,
 } from 'antd';
 import {
   BoldOutlined,
   EditOutlined,
   EllipsisOutlined,
   SettingOutlined,
+  ArrowDownOutlined,
+  ArrowUpOutlined,
 } from '@ant-design/icons';
 import axios from 'axios';
+import { parse } from 'node:path/win32';
 
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
+const openNotificationWithIcon = (type: NotificationType) => {
+  notification[type]({
+    message: 'Wrong Place',
+    description:
+      'Please Enter correct Location like London/United State, Hongkong ..',
+  });
+};
 const { Content } = Layout;
 const { Panel } = Collapse;
 const { Search } = Input;
@@ -30,8 +45,10 @@ const weather: any = () => {
   const onChange = (key: string | string[]) => {
     console.log(key);
   };
+  const [searchLoading, setSearchLoading] = useState(false);
   const onSearch = (value: string) => {
-    const [searchItem, SetsearchItem] = useState(value);
+    setSearchLoading(true);
+    fetchWeathers(value);
   };
   const contentStyle: React.CSSProperties = {
     height: '160px',
@@ -41,31 +58,38 @@ const weather: any = () => {
     background: '#364d79',
   };
 
-  const weathers = useSelector((state: any) => state.weatherReducer.weather);
-  // console.log('rocket' + rockets);
+  const weathers = useSelector((state: any) => state.weatherReducer.weathers);
+  const location = weathers.location;
+  const current = weathers.current;
+  const forecast = weathers.forecast;
+
   const dispatch = useDispatch();
-  const fetchWeathers = async () => {
-    const searchval: string = useSelector((state: any) => state.searchItem);
+  const fetchWeathers = async (val: string = 'Hongkong') => {
+    const apiurl =
+      'http://api.weatherapi.com/v1/forecast.json?key=837eab2a4759441ea02113737221409&q=' +
+      val +
+      '&days=7&aqi=no&alerts=no';
     const response = await axios
-      .get(
-        'http://api.weatherapi.com/v1/forecast.json?key=837eab2a4759441ea02113737221409&q=pakistan&days=7&aqi=no&alerts=no'
-      )
+      .get(apiurl)
+      .then(function (response) {
+        dispatch(searchWeather(response.data));
+        setSearchLoading(false);
+      })
       .catch((err) => {
+        openNotificationWithIcon('error');
+        setSearchLoading(false);
         console.log('Err: ', err);
       });
-
-    dispatch(searchWeather(response));
   };
-
+  useEffect(() => {
+    fetchWeathers();
+  }, []);
   return (
     <>
       <Content
         className="site-layout"
         style={{ padding: '0 50px', marginTop: 64 }}
       >
-        {/* <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Weather Page</Breadcrumb.Item>
-        </Breadcrumb> */}
         <div
           className="site-layout-background"
           style={{ padding: 24, minHeight: 380 }}
@@ -77,7 +101,7 @@ const weather: any = () => {
                 enterButton="Search"
                 size="large"
                 onSearch={onSearch}
-                loading={false}
+                loading={searchLoading}
               />
               <Row gutter={[16, 16]}>
                 <Col span={24}>
@@ -97,15 +121,21 @@ const weather: any = () => {
                         <div>
                           <h2>
                             <span style={{ fontSize: 12 }}>
-                              Sunny
-                              <img src="//cdn.weatherapi.com/weather/64x64/night/113.png" />
+                              <img
+                                src={
+                                  current && current.wind_mph
+                                    ? current.condition.icon
+                                    : '//cdn.weatherapi.com/weather/64x64/night/113.png'
+                                }
+                              />
                             </span>
-                            Islamabad{' '}
+                            {location && location.name}{' '}
                             <span style={{ fontSize: 18, color: 'blue' }}>
-                              Pakistan
+                              {location && location.country}
                             </span>{' '}
                             <span style={{ fontSize: 12 }}>
-                              <b>Now : </b>2022-09-14 18:26
+                              <b>Now : </b>
+                              {location && location.localtime}
                             </span>{' '}
                           </h2>{' '}
                         </div>
@@ -113,7 +143,11 @@ const weather: any = () => {
                       description={
                         <>
                           <h2>
-                            <span>Temp : </span>32C | 65F | Wind Mph : 2.2
+                            <span>Temp : </span>
+                            {current && current.temp_c}C |{' '}
+                            {current && current.temp_f}F | Wind Mph :{' '}
+                            {current && current.wind_mph}| Humidity :{' '}
+                            {current && current.humidity}
                           </h2>
                         </>
                       }
@@ -123,17 +157,85 @@ const weather: any = () => {
               </Row>
             </Col>
             <Col offset={6} span={12}>
-              <h2>Next Days Weather</h2>
-              <Collapse defaultActiveKey={['1']} onChange={onChange}>
-                <Panel header="This is panel header 1" key="1">
-                  <p>{text}</p>
-                </Panel>
-                <Panel header="This is panel header 2" key="2">
-                  <p>{text}</p>
-                </Panel>
-                <Panel header="This is panel header 3" key="3">
-                  <p>{text}</p>
-                </Panel>
+              <h2>Weather Forecast In Coming 7 Days</h2>
+              <Collapse onChange={onChange}>
+                {forecast &&
+                  forecast.forecastday.map((dayval: any) => {
+                    return (
+                      <Panel
+                        header={
+                          <>
+                            <b>{dayval.date}</b> |{' '}
+                            <span style={{ color: 'blue' }}>
+                              {dayval.day.condition &&
+                                dayval.day.condition.text}
+                              <img
+                                src={
+                                  dayval.day.condition &&
+                                  dayval.day.condition.icon
+                                }
+                              />
+                            </span>{' '}
+                            | Temp:
+                            <span style={{ color: 'blue' }}>
+                              {dayval.day && dayval.day.maxtemp_c}C
+                            </span>
+                          </>
+                        }
+                        key={dayval.date}
+                      >
+                        <div className="site-statistic-demo-card">
+                          <Row gutter={16}>
+                            <Col span={6}>
+                              <Card>
+                                <Statistic
+                                  title="Max Temp"
+                                  value={dayval.day && dayval.day.maxtemp_c}
+                                  precision={2}
+                                  valueStyle={{ color: '#cf1322' }}
+                                  prefix={<ArrowUpOutlined />}
+                                />
+                              </Card>
+                            </Col>
+                            <Col span={6}>
+                              <Card>
+                                <Statistic
+                                  title="Min Temp"
+                                  value={dayval.day && dayval.day.mintemp_c}
+                                  precision={2}
+                                  valueStyle={{ color: '#3f8600' }}
+                                  prefix={<ArrowDownOutlined />}
+                                />
+                              </Card>
+                            </Col>
+                            <Col span={6}>
+                              <Card>
+                                <Statistic
+                                  title="Max Wind MPH"
+                                  value={dayval.day && dayval.day.maxwind_mph}
+                                  precision={2}
+                                  valueStyle={{ color: '#cf1322' }}
+                                  prefix={<ArrowDownOutlined />}
+                                />
+                              </Card>
+                            </Col>
+
+                            <Col span={6}>
+                              <Card>
+                                <Statistic
+                                  title="Humadity"
+                                  value={dayval.day && dayval.day.avghumidity}
+                                  precision={2}
+                                  valueStyle={{ color: '#cf1322' }}
+                                  prefix={<ArrowDownOutlined />}
+                                />
+                              </Card>
+                            </Col>
+                          </Row>
+                        </div>
+                      </Panel>
+                    );
+                  })}
               </Collapse>
             </Col>
           </Row>
