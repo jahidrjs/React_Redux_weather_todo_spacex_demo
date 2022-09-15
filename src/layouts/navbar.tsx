@@ -9,19 +9,6 @@ import {
 } from '@ant-design/icons';
 
 const { Header } = Layout;
-const items = [
-  {
-    label: 'Navigation One',
-    key: 'mail',
-    icon: '',
-  },
-  {
-    label: 'Navigation Two',
-    key: 'app',
-    icon: '',
-    disabled: true,
-  },
-];
 
 const navbar: any = () => {
   return (

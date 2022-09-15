@@ -8,7 +8,6 @@ const footer: any = () => {
     <>
       <Footer style={{ textAlign: 'center' }}>
         Demo Project ©2022 Created by Jahid Al Mamun | Sr. Application Developer
-        Partner
       </Footer>
     </>
   );
