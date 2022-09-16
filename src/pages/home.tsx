@@ -113,7 +113,7 @@ const Home: any = () => {
                 Github :
                 https://github.com/jahidrjs/React_Redux_weather_todo_spacex_demo.git
               </p>
-              <p>Live: </p>
+              <p>Live: https://mytask.vercel.app</p>
               <h2>Question and Answer</h2>
               Q : What is Headless CMS?
               <br />A : Headless CMS is mainly a backend content management
@@ -140,9 +140,8 @@ const Home: any = () => {
               A: A Database contains a collection, and a collection contains
               documents and the documents contain data, they are related to each
               other.
-              <br />
-              Q : Briefly describe how to deploy a docker container to AWS ECS
-              fargate. What are the steps, features, services, actions are
+              <br />Q : Briefly describe how to deploy a docker container to AWS
+              ECS fargate. What are the steps, features, services, actions are
               needed to keep the container up and running in AWS ECS fargate?{' '}
               <br />
               A : Step 1: Set up your first run with Amazon ECS. Step 2: Create
