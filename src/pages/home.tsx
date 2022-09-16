@@ -42,13 +42,19 @@ const Home: any = () => {
                   />
                 }
                 actions={[
-                  <a href="https://linkedin.com" target="_blank">
+                  <a
+                    href="https://www.linkedin.com/in/jahid-al-mamun/"
+                    target="_blank"
+                  >
                     <LinkedinOutlined />
                   </a>,
-                  <a href="http://github.com">
+                  <a href="https://github.com/jahidrjs" target="_blank">
                     <GithubOutlined />
                   </a>,
-                  <a href="http://facebook.com">
+                  <a
+                    href="https://www.facebook.com/jahid.hasan.5283166/"
+                    target="_blank"
+                  >
                     <FacebookOutlined />
                   </a>,
                 ]}
@@ -95,6 +101,13 @@ const Home: any = () => {
                 <br />
                 II. Information from (I.) can be searched/filtered on screen
                 <br />
+              </p>
+              <p>
+                <b>Uses Skill : </b>
+                <span>
+                  React, Redux, Typescript, ESLINT, Ant Design, Weather API,
+                  Spacex API, Docker
+                </span>
               </p>
               <p>
                 Github :
